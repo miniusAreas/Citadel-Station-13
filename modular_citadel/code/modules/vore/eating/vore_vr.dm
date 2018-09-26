@@ -39,7 +39,7 @@ V::::::V           V::::::VO:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEE
 
 /datum/vore_preferences
 	//Actual preferences
-	var/digestable = TRUE
+	var/digestable = FALSE
 	var/devourable = FALSE
 //	var/allowmobvore = TRUE
 	var/list/belly_prefs = list()
@@ -113,7 +113,7 @@ V::::::V           V::::::VO:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEE
 
 	//Quick sanitize
 	if(isnull(digestable))
-		digestable = TRUE
+		digestable = FALSE
 	if(isnull(devourable))
 		devourable = FALSE
 	if(isnull(belly_prefs))
@@ -151,9 +151,14 @@ V::::::V           V::::::VO:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEE
 		return FALSE
 
 	//Write it out
+#ifdef RUST_G
+	call(RUST_G, "file_write")(json_to_file, path)
+#else
+	// Fall back to using old format if we are not using rust-g
 	if(fexists(path))
 		fdel(path) //Byond only supports APPENDING to files, not replacing.
-	text2file(json_to_file,path)
+	text2file(json_to_file, path)
+#endif
 	if(!fexists(path))
 		testing("Saving: [path] failed file write")
 		return FALSE

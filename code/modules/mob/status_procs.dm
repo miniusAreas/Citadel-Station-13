@@ -205,7 +205,7 @@
 		var/old_eye_blurry = eye_blurry
 		eye_blurry = max(amount, eye_blurry)
 		if(!old_eye_blurry)
-			add_eyeblur()
+			add_eyeblur() //Citadel edit blurry eye memes entailed. syncs beware
 
 /mob/proc/adjust_blurriness(amount)
 	var/old_eye_blurry = eye_blurry
@@ -256,5 +256,5 @@
 /////////////////////////////////// TEMPERATURE ////////////////////////////////////
 
 /mob/proc/adjust_bodytemperature(amount,min_temp=0,max_temp=INFINITY)
-	if(bodytemperature > min_temp && bodytemperature < max_temp)
+	if(bodytemperature >= min_temp && bodytemperature <= max_temp)
 		bodytemperature = CLAMP(bodytemperature + amount,min_temp,max_temp)
